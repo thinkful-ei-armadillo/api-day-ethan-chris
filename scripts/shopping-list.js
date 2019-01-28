@@ -58,8 +58,14 @@ const shoppingList = (function(){
     console.log('`render` ran');
     const shoppingListItemsString = generateShoppingItemsString(items);
 
+    // I know there should be only one call to html() but this was so much easier
+    const messages = (store.error) ? `<div class="error-message">${store.error.message}</div>` : '';
+    $('#messages').html(messages);
+
     // insert that HTML into the DOM
     $('.js-shopping-list').html(shoppingListItemsString);
+
+    store.error = null;
   }
 
 
@@ -77,6 +83,7 @@ const shoppingList = (function(){
         })
         .catch((err) => {
           console.log(err);
+          store.error = err;
         })
         .finally(() => {
           render();
@@ -95,7 +102,7 @@ const shoppingList = (function(){
       const id = getItemIdFromElement(event.currentTarget);
       const checked = !store.findById(id).checked;
 
-      api.updateItem(id, { checked: checked })
+      api.updateItem(id, { asdfasd: checked })
         .then((res) => {
 
           if (res.ok) {
@@ -106,6 +113,7 @@ const shoppingList = (function(){
         })
         .catch((err) => {
           console.log(err);
+          store.error = err;
         })
         .finally(() => {
           render();
@@ -130,6 +138,7 @@ const shoppingList = (function(){
         })
         .catch((err) => {
           console.log(err);
+          store.error = err;
         })
         .finally(() => {
           render();
@@ -154,6 +163,7 @@ const shoppingList = (function(){
         })
         .catch((err) => {
           console.log(err);
+          store.error = err;
         })
         .finally(() => {
           store.findAndUpdate(id, { isEditing: false });

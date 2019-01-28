@@ -7,7 +7,7 @@ const store = (function(){
 
   const findAndUpdate = function(id, newData){
     const item = this.findById(id);
-    Object.assign(item, newData); 
+    Object.assign(item, newData);
   };
 
 
@@ -38,6 +38,7 @@ const store = (function(){
   };
 
   return {
+    error: null,
     items: [],
     hideCheckedItems: false,
     searchTerm: '',
@@ -48,7 +49,7 @@ const store = (function(){
     toggleCheckedFilter,
     setSearchTerm,
     setItemIsEditing,
-    findAndUpdate, 
+    findAndUpdate,
   };
 
 }());
