@@ -115,18 +115,19 @@ const shoppingList = (function(){
       const id = getItemIdFromElement(event.currentTarget);
       api.deleteItem(id)
         .then((res) => {
-          
+
           if(res.ok) {
             store.findAndDelete(id);
-            render(); 
+            render();
           }
           else{
             return res.json().then((data) => {throw new Error(data.message); })
-          } 
+          }
         })
         .catch((err) => {
           console.log(err);
-        }); 
+          render();
+        });
     });
   }
 
