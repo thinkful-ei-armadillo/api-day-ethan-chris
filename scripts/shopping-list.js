@@ -75,7 +75,10 @@ const shoppingList = (function(){
         .then((data) => {
           store.addItem(data);
         })
-        .then(() => {
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
           render();
         });
     });
@@ -97,13 +100,15 @@ const shoppingList = (function(){
 
           if (res.ok) {
             store.findAndUpdate(id, { checked: checked });
-            render();
           } else {
             return res.json().then((data) => { throw new Error(data.message); });
           }
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          render();
         });
     });
   }
@@ -118,14 +123,15 @@ const shoppingList = (function(){
 
           if(res.ok) {
             store.findAndDelete(id);
-            render();
           }
           else{
-            return res.json().then((data) => {throw new Error(data.message); })
+            return res.json().then((data) => {throw new Error(data.message); });
           }
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
           render();
         });
     });
@@ -141,14 +147,17 @@ const shoppingList = (function(){
         .updateItem(id, { name: itemName })
         .then((res) => {
           if (res.ok) {
-            store.findAndUpdate(id, { name: itemName, isEditing: false });
-            render();
+            store.findAndUpdate(id, { name: itemName });
           } else {
             return res.json().then((data) => { throw new Error(data.message); });
           }
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          store.findAndUpdate(id, { isEditing: false });
+          render();
         });
     });
   }
