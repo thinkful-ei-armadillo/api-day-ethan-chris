@@ -77,9 +77,13 @@ const shoppingList = (function(){
       $('.js-shopping-list-entry').val('');
 
       api.createItem(newItemName)
-        .then((res) => res.json())
-        .then((data) => {
-          store.addItem(data);
+        .then((res) => {
+
+          if (res.ok) {
+            store.addItem(data);
+          } else {
+            return res.json().then((data) => { throw new Error(data.message); });
+          }
         })
         .catch((err) => {
           console.log(err);
