@@ -90,8 +90,21 @@ const shoppingList = (function(){
   function handleItemCheckClicked() {
     $('.js-shopping-list').on('click', '.js-item-toggle', event => {
       const id = getItemIdFromElement(event.currentTarget);
-      store.findAndToggleChecked(id);
-      render();
+      const checked = !store.findById(id).checked;
+
+      api.updateItem(id, { checked: checked })
+        .then((res) => {
+
+          if (res.ok) {
+            store.findAndUpdate(id, { checked: checked });
+            render();
+          } else {
+            return res.json().then((data) => { throw new Error(data.message); });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
   }
 
@@ -112,9 +125,20 @@ const shoppingList = (function(){
       event.preventDefault();
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
-      store.findAndUpdateName(id, itemName);
-      store.setItemIsEditing(id, false);
-      render();
+
+      api
+        .updateItem(id, { name: itemName })
+        .then((res) => {
+          if (res.ok) {
+            store.findAndUpdate(id, { name: itemName, isEditing: false });
+            render();
+          } else {
+            return res.json().then((data) => { throw new Error(data.message); });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
   }
 
