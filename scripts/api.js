@@ -19,10 +19,19 @@ const api = (function () {
       }, 
       body: newItem,  
     });  
-  };  
+  }; 
+  
+  const updateItem = function(id, updateData){
+    return fetch(`${BASE_URL}/items/${id}`, {
+      method: 'PATCH', 
+      body: JSON.stringify(updateData), 
+      headers: {'Content-Type': 'application/json'} 
+    }); 
+  };
   
   return {
     getItems,
-    createItem
+    createItem,
+    updateItem, 
   };
 }());
