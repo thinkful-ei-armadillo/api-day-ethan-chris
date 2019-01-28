@@ -28,10 +28,18 @@ const api = (function () {
       headers: {'Content-Type': 'application/json'} 
     }); 
   };
+
+  const deleteItem = function(id){
+    return fetch(`${BASE_URL}/items/${id}`, {
+      method:'DELETE',
+      headers: {'Content-Type': 'application/json'}
+    }); 
+  };
   
   return {
     getItems,
     createItem,
-    updateItem, 
+    updateItem,
+    deleteItem,  
   };
 }());
